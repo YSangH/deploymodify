@@ -32,17 +32,20 @@ export class PrChallengeRepository implements IChallengeRepository {
 
   async findAll(): Promise<Challenge[]> {
     const challenges = await prisma.challenge.findMany();
-    return challenges.map((challenge) => new Challenge(
-      challenge.id,
-      challenge.name,
-      challenge.createdAt,
-      challenge.endAt,
-      challenge.startTime,
-      challenge.endTime,
-      challenge.color,
-      challenge.userId,
-      challenge.categoryId
-    ));
+    return challenges.map(
+      (challenge) =>
+        new Challenge(
+          challenge.id,
+          challenge.name,
+          challenge.createdAt,
+          challenge.endAt,
+          challenge.startTime,
+          challenge.endTime,
+          challenge.color,
+          challenge.userId,
+          challenge.categoryId
+        )
+    );
   }
 
   async findById(id: number): Promise<Challenge | null> {
@@ -123,9 +126,11 @@ export class PrChallengeRepository implements IChallengeRepository {
     } = {};
 
     if (challenge.name !== undefined) updateData.name = challenge.name;
-    if (challenge.createdAt !== undefined) updateData.createdAt = challenge.createdAt;
+    if (challenge.createdAt !== undefined)
+      updateData.createdAt = challenge.createdAt;
     if (challenge.endAt !== undefined) updateData.endAt = challenge.endAt;
-    if (challenge.startTime !== undefined) updateData.startTime = challenge.startTime;
+    if (challenge.startTime !== undefined)
+      updateData.startTime = challenge.startTime;
     if (challenge.endTime !== undefined) updateData.endTime = challenge.endTime;
     if (challenge.color !== undefined) updateData.color = challenge.color;
     if (challenge.userId !== undefined) updateData.userId = challenge.userId;

@@ -8,6 +8,7 @@ export interface IUserRepository {
   // Read
   findById(id: string): Promise<User | null | undefined>;
   findAll(): Promise<User[] | undefined>;
+  findByEmail(email: string): Promise<User | null | undefined>;
 
   // Update
   updateUserNickname(id: string, nickname: string): Promise<User | {message: string} | undefined>;

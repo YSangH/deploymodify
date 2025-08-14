@@ -1,9 +1,5 @@
 "use client";
-import '@ant-design/v5-patch-for-react-19';
-<<<<<<< HEAD
-
-=======
->>>>>>> 690e8c53bf2141217965b4787c2aa5bf2cd79274
+import "@ant-design/v5-patch-for-react-19";
 import { Button as AntdButton } from "antd";
 
 //차후 tailwind css 사용할때 상수화
@@ -33,10 +29,6 @@ interface IButton {
   htmlType?: "button" | "submit" | "reset";
   style?: React.CSSProperties;
   disabled?: boolean
-<<<<<<< HEAD
-
-=======
->>>>>>> 690e8c53bf2141217965b4787c2aa5bf2cd79274
 }
 
 export const Button = ({
@@ -47,7 +39,7 @@ export const Button = ({
   className,
   htmlType,
   style,
-  disabled = false
+  disabled = false,
 }: IButton) => {
   return (
     <AntdButton

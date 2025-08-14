@@ -1,11 +1,12 @@
 import { LoginRequestDto } from "@/backend/auths/applications/dtos/LoginRequestDto";
 import { LoginResponseDto } from "@/backend/auths/applications/dtos/LoginResponseDto";
 import { IUserRepository } from "@/backend/users/domains/repositories/IUserRepository";
-// import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 
 
 export class LoginUsecase {
     constructor(private readonly userRepository: IUserRepository) {
+        // console.log("🔧 [LoginUsecase] 인스턴스 생성됨");
     }
 
     async execute(loginRequest: LoginRequestDto): Promise<LoginResponseDto> {
@@ -21,13 +22,13 @@ export class LoginUsecase {
                     message: "이메일과 비밀번호를 모두 입력해주세요."
                 };
             }
+            // console.log("✅ [LoginUsecase] 입력값 검증 통과");
 
             // 이메일 형식 검증
             const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             const isEmailValid = emailRegex.test(loginRequest.email);
 
             if (!isEmailValid) {
-
                 return {
                     success: false,
                     message: "올바른 이메일 형식을 입력해주세요."
@@ -76,11 +77,13 @@ export class LoginUsecase {
             return successResponse;
 
         } catch (error) {
-            console.error("💥 LoginUsecase 실행 중 오류:", error);
-            return {
-                success: false,
-                message: "로그인 처리 중 오류가 발생했습니다."
-            };
+            // console.error("💥 [LoginUsecase] 로그인 처리 중 오류 발생:", error);
+
+            if (error instanceof Error) {
+                throw new Error(error.message);
+            }
+
+            throw new Error("로그인 처리 중 알 수 없는 오류가 발생했습니다.");
         }
     }
 }

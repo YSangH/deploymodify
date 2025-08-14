@@ -41,7 +41,7 @@ export const Button = ({
   className,
   htmlType,
   style,
-  disabled = false
+  disabled = false,
 }: IButton) => {
   return (
     <AntdButton

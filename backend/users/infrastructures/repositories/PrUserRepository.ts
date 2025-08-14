@@ -38,6 +38,7 @@ export class PrUserRepository implements IUserRepository {
     }
   }
 
+
   /**
    * 해당 메소드는 s3에 이미지 생성
    * @param fromUserId: string

@@ -19,7 +19,6 @@ const Header: React.FC = () => {
     );
   };
 
-
   return (
     <header className="w-full flex justify-between items-center py-4">
       <div className="flex flex-3 items-center justify-center" />

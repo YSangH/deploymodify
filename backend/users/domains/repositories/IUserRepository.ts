@@ -11,6 +11,7 @@ export interface IUserRepository {
   findByEmail(email: string): Promise<User | null | undefined>;
 
   findByEmail(email: string): Promise<User>;
+  checkEmailExists(email: string): Promise<boolean>;
 
   // Update
   updateUserNickname(id: string, nickname: string): Promise<User | { message: string } | undefined>;

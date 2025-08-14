@@ -1,53 +1,134 @@
+import { LoginUsecase } from "@/backend/auths/applications/usecases/LoginUsecase";
+import { PrUserRepository } from "@/backend/users/infrastructures/repositories/PrUserRepository";
+import { LoginRequestDto } from "@/backend/auths/applications/dtos/LoginRequestDto";
 import { Session, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import KakaoProvider from "next-auth/providers/kakao";
+// import GoogleProvider from "next-auth/providers/google";
+// import KakaoProvider from "next-auth/providers/kakao";
 
 export const authOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" },
+        email: { label: "email", type: "email" },
+        password: { label: "password", type: "password" },
       },
-      async authorize(credentials) {
-        const { username, password } = credentials ?? {};
 
-        // 실제 DB 또는 API를 통한 사용자 인증 로직
-        if (username === "ysh" && password === "0000") {
-          return {
-            id: "7ae5e5c9-0c28-426f-952f-85bdfdcfc522",
-            username: "유상현",
-          };
+      async authorize(credentials) {
+        console.log("🔐 [NextAuth] authorize 함수 시작");
+        const { email, password } = credentials ?? {};
+
+        console.log("📝 [NextAuth] 입력된 credentials:", { email, password: password ? "***" : "undefined" });
+
+        if (!email || !password) {
+          console.log("❌ [NextAuth] 이메일 또는 비밀번호 누락");
+          return null;
         }
 
-        return null;
+        console.log("✅ [NextAuth] 입력값 검증 통과");
+
+        try {
+          console.log("🚀 [NextAuth] LoginUsecase 실행 시작");
+          const loginUsecase = new LoginUsecase(new PrUserRepository());
+          const loginRequestdto: LoginRequestDto = { email, password };
+
+          const result = await loginUsecase.execute(loginRequestdto);
+          console.log("📊 [NextAuth] LoginUsecase 실행 결과:", {
+            success: result.success,
+            message: result.message,
+            hasUser: !!result.user
+          });
+
+          if (result.success && result.user) {
+            console.log("✅ [NextAuth] 로그인 성공, 사용자 정보:", {
+              id: result.user.id,
+              email: result.user.email
+            });
+
+            const userData = {
+              id: result.user.id,
+              email: result.user.email,
+            };
+
+            console.log("📤 [NextAuth] authorize에서 반환할 사용자 데이터:", userData);
+            return userData;
+          } else {
+            console.log("❌ [NextAuth] 로그인 실패:", result.message);
+            return null;
+          }
+        } catch (error) {
+          console.error("💥 [NextAuth] authorize 실행 중 오류:", error);
+          return null;
+        }
       },
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-    KakaoProvider({
-      clientId: process.env.KAKAO_CLIENT_ID!,
-      clientSecret: process.env.KAKAO_CLIENT_SECRET!,
-    }),
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_CLIENT_ID!,
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    // }),
+    // KakaoProvider({
+    //   clientId: process.env.KAKAO_CLIENT_ID!,
+    //   clientSecret: process.env.KAKAO_CLIENT_SECRET!,
+    // }),
   ],
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: User }) {
+      console.log("🔑 [NextAuth] JWT callback 시작");
+
       if (user) {
-        token.id = user.id;
+        console.log("👤 [NextAuth] JWT callback - 사용자 정보 업데이트:", {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+          nickname: user.nickname
+        });
+
+        token.email = user.email;
         token.username = user.username;
+        token.nickname = user.nickname;
+        token.profileImg = user.profileImg;
+        token.profileImgPath = user.profileImgPath;
+        token.createdAt = user.createdAt;
+        token.updatedAt = user.updatedAt;
+
+        console.log("✅ [NextAuth] JWT token 업데이트 완료");
+      } else {
+        console.log("🔄 [NextAuth] JWT callback - 기존 token 반환");
+
       }
+
       return token;
     },
+
     async session({ session, token }: { session: Session; token: JWT }) {
+      console.log("🔄 [NextAuth] Session callback 시작");
+
       if (session.user) {
+        console.log("👤 [NextAuth] Session callback - session.user 업데이트 시작");
+
         session.user.id = token.id as string;
+        session.user.email = token.email as string;
         session.user.username = token.username as string;
+        session.user.nickname = token.nickname as string;
+        session.user.profileImg = token.profileImg as string;
+        session.user.profileImgPath = token.profileImgPath as string;
+        session.user.createdAt = token.createdAt as Date;
+        session.user.updatedAt = token.updatedAt as Date;
+
+        console.log("✅ [NextAuth] Session callback - session.user 업데이트 완료:", {
+          id: session.user.id,
+          email: session.user.email,
+          username: session.user.username,
+          nickname: session.user.nickname
+        });
+      } else {
+        console.log("⚠️ [NextAuth] Session callback - session.user가 없음");
+
       }
+
       return session;
     },
     async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
@@ -59,15 +140,8 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: "/auth", // 로그인 페이지 경로
+    signIn: "/login", // 로그인 페이지 경로
     signUp: "/signup", // 회원가입 페이지 경로
-    error: "/auth", // 에러 페이지 경로
+    error: "/login", // 에러 페이지 경로
   },
-
-  session: {
-    strategy: "jwt" as const,
-    maxAge: 60 * 60 * 24 * 30, // 30일 지속 주기
-    updateAge: 60 * 60 * 24, // 24시간 업데이트 주기
-  },
-  secret: process.env.NEXTAUTH_SECRET,
 };

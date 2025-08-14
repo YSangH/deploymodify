@@ -3,7 +3,6 @@ import { LoginResponseDto } from "@/backend/auths/applications/dtos/LoginRespons
 import { IUserRepository } from "@/backend/users/domains/repositories/IUserRepository";
 import bcrypt from "bcryptjs";
 
-
 export class LoginUsecase {
     constructor(private readonly userRepository: IUserRepository) {
         // console.log("🔧 [LoginUsecase] 인스턴스 생성됨");

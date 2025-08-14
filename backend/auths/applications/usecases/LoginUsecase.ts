@@ -3,7 +3,6 @@ import { LoginResponseDto } from "@/backend/auths/applications/dtos/LoginRespons
 import { IUserRepository } from "@/backend/users/domains/repositories/IUserRepository";
 // import bcrypt from "bcryptjs";
 
-
 export class LoginUsecase {
     constructor(private readonly userRepository: IUserRepository) {
     }
@@ -55,12 +54,10 @@ export class LoginUsecase {
                     message: "비밀번호가 일치하지 않습니다."
                 };
             }
-
             console.log("✅ 비밀번호 검증 성공");
 
             // 5. 성공 응답
             console.log("🎉 5단계: 로그인 성공 응답 생성");
-
             const successResponse = {
                 success: true,
                 message: "로그인 성공",

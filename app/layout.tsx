@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { QueryProvider } from "./_components/query-providers/QueryProvider";
-<<<<<<< HEAD
 import ModalProvider from "./_components/providers/ModalProvider";
-=======
->>>>>>> 690e8c53bf2141217965b4787c2aa5bf2cd79274
+import NextAuthSessionProvider from "./_components/providers/NextAuthSessionProvider";
 import Header from "./_components/layouts/Header";
 import { pretendard } from "../public/fonts/font";
 
@@ -70,15 +68,12 @@ const RootLayout = ({
         className={`${pretendard.variable} ${pretendard.variable} antialiased mobile-container`}
       >
         <div className="mobile-wrapper">
-          <Header />
-<<<<<<< HEAD
-          <QueryProvider>
-            <ModalProvider>{children}</ModalProvider>
-          </QueryProvider>
-
-=======
-          <QueryProvider>{children}</QueryProvider>
->>>>>>> 690e8c53bf2141217965b4787c2aa5bf2cd79274
+          <NextAuthSessionProvider>
+            <Header />
+            <QueryProvider>
+              <ModalProvider>{children}</ModalProvider>
+            </QueryProvider>
+          </NextAuthSessionProvider>
         </div>
       </body>
     </html>

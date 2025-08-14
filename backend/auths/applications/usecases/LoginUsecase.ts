@@ -78,17 +78,10 @@ export class LoginUsecase {
                     message: "비밀번호가 일치하지 않습니다."
                 };
             }
-<<<<<<< HEAD
-            console.log("✅ 비밀번호 검증 성공");
-
-            // 5. 성공 응답
-            console.log("🎉 5단계: 로그인 성공 응답 생성");
-=======
             // console.log("✅ [LoginUsecase] 비밀번호 검증 성공");
 
             // 로그인 성공 응답 생성
             // console.log("🎉 [LoginUsecase] 5단계: 로그인 성공 응답 생성");
->>>>>>> b3e6182d0ef5fcc5d171845c1aa32b910cd31faf
             const successResponse = {
                 success: true,
                 message: "로그인 성공",

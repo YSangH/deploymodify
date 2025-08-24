@@ -9,7 +9,6 @@ export const FeedBackBarChart = ({ dashBoardData }: { dashBoardData: DashboardDt
   const allCategoryData = calculateAllCategoriesProgress(challenge, routines, routineCompletions);
 
   const challengeData = allCategoryData.map(category => {
-    const active = category.challengesWithProgress.filter(item => item.progressPercent > 0).length;
     return {
       name: category.name,
       total: category.challengeCount,

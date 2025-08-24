@@ -1,7 +1,6 @@
 import { SignUpRequestDto } from '@/backend/auths/applications/dtos/SignUpRequestDto';
 import { SignUpResponseDto } from '@/backend/auths/applications/dtos/SignUpResponseDto';
 import { IUserRepository } from '@/backend/users/domains/repositories/IUserRepository';
-import { s3Service } from '@/backend/shared/services/s3.service';
 import bcrypt from 'bcryptjs';
 
 export class CreateUserUsecase {
@@ -31,9 +30,12 @@ export class CreateUserUsecase {
         finalProfileImgPath = profileImgPath;
       } else if (profileFile) {
         try {
-          const { imageUrl, key } = await s3Service.uploadImage(profileFile, 'user');
-          finalProfileImg = imageUrl;      // S3 URL
-          finalProfileImgPath = key;       // S3 Key
+          const uploadResult = await this.userRepository.createProfileImg(profileFile);
+
+          if (uploadResult && uploadResult.length >= 2) {
+            finalProfileImg = uploadResult[0]; // S3 URL
+            finalProfileImgPath = uploadResult[1]; // S3 Key
+          }
         } catch (error) {
           throw error;
         }

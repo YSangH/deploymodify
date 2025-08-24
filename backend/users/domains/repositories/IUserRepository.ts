@@ -6,6 +6,7 @@ import { UserReviewEntity } from '@/backend/users/domains/entities/UserReviewEnt
 export interface IUserRepository {
   // Create
   create(user: User): Promise<User>;
+  createProfileImg(profileFile: File): Promise<string[]>;
   createUserReview(
     reviewContent: string,
     routineCompletionId: number,

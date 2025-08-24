@@ -1,9 +1,10 @@
+'use client';
 import { DashboardDto } from '@/backend/dashboards/application/dtos/DashboardDto';
 import React from 'react';
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis, Cell } from 'recharts';
 import { calculateAllCategoriesProgress } from '@/app/user/feedback/_components/CalcFeedBackData';
 
-export const FeedBackBarChart = ({ dashBoardData }: { dashBoardData: DashboardDto }) => {
+export const FeedBackBarChart: React.FC<{ dashBoardData: DashboardDto }> = ({ dashBoardData }) => {
   const { challenge, routines, routineCompletions } = dashBoardData;
 
   const allCategoryData = calculateAllCategoriesProgress(challenge, routines, routineCompletions);

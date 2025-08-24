@@ -40,6 +40,8 @@ export interface IUserRepository {
     beforeNickname?: string
   ): Promise<User | { message: string } | undefined>;
 
+  updateUserName(id: string, username: string): Promise<User | undefined>;
+
   // Delete
   delete(nickname: string): Promise<boolean>;
   deleteUserRoutineCompletionReview(

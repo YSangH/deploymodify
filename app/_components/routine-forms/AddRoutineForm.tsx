@@ -69,13 +69,12 @@ const AddRoutineForm: React.FC<AddRoutineFormProps> = ({ challengeId, onSuccess 
     }
 
     const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD 형태
-    const alertTime = enableAlert && formData.alertTime 
-      ? new Date(`${today}T${formData.alertTime}:00`) 
-      : null;
+    const alertTime =
+      enableAlert && formData.alertTime ? new Date(`${today}T${formData.alertTime}:00`) : null;
 
     const createRoutineData: CreateRoutineRequestDto = {
       routineTitle: formData.routineTitle,
-      alertTime: alertTime,
+      alertTime: alertTime ? alertTime.toISOString() : null,
       emoji: formData.emoji,
       challengeId: challengeId,
       nickname: userInfo.nickname,
@@ -86,9 +85,9 @@ const AddRoutineForm: React.FC<AddRoutineFormProps> = ({ challengeId, onSuccess 
         closeModal();
         onSuccess?.();
       },
-      onError: (error) => {
+      onError: error => {
         console.error('루틴 생성 실패:', error);
-      }
+      },
     });
   };
 
@@ -171,14 +170,14 @@ const AddRoutineForm: React.FC<AddRoutineFormProps> = ({ challengeId, onSuccess 
             type='checkbox'
             id='enableAlert'
             checked={enableAlert}
-            onChange={(e) => setEnableAlert(e.target.checked)}
+            onChange={e => setEnableAlert(e.target.checked)}
             className='w-4 h-4 text-lime-600 bg-gray-100 border-gray-300 rounded focus:ring-lime-500 focus:ring-2'
           />
           <label htmlFor='enableAlert' className='text-sm font-medium text-gray-700'>
             알림 설정하기
           </label>
         </div>
-        
+
         {enableAlert && (
           <div className='pl-6'>
             <CustomInput
@@ -188,7 +187,9 @@ const AddRoutineForm: React.FC<AddRoutineFormProps> = ({ challengeId, onSuccess 
               label='알림 시간'
               labelHtmlFor='alertTime'
             />
-            <span className='text-xs text-gray-500 mt-1 block'>지정한 시간에 루틴 알림을 받을 수 있습니다.</span>
+            <span className='text-xs text-gray-500 mt-1 block'>
+              지정한 시간에 루틴 알림을 받을 수 있습니다.
+            </span>
           </div>
         )}
       </div>

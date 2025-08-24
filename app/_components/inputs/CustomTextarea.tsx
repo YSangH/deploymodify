@@ -9,7 +9,7 @@ interface CustomTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaE
 }
 
 const CustomTextarea = forwardRef<HTMLTextAreaElement, CustomTextareaProps>(
-  ({ label, labelHtmlFor, labelStyle, className, ...props }, ref) => {
+  ({ label, labelHtmlFor, className, ...props }, ref) => {
     return (
       <div className='flex flex-col gap-2'>
         {label && (

@@ -36,6 +36,7 @@ model ChallengeCategory {
 }
 
 model Challenge {
+<<<<<<< HEAD
   id                  Int               @id @default(autoincrement())
   name                String
   createdAt           DateTime          @map("created_at")
@@ -49,6 +50,20 @@ model Challenge {
   category            ChallengeCategory @relation(fields: [categoryId], references: [id])
   user                User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   routines            Routine[]
+=======
+  id         Int               @id @default(autoincrement())
+  name       String
+  createdAt  DateTime          @map("created_at")
+  endAt      DateTime          @map("end_at")
+  color      String
+  userId     String            @map("user_id")
+  categoryId Int               @map("category_id")
+  active     Boolean           @default(true)
+  feedbacks  Feedback[]
+  category   ChallengeCategory @relation(fields: [categoryId], references: [id])
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  routines   Routine[]
+>>>>>>> 0c97e2ce4a5b5e4b8def5925149d11e89f954879
 
   @@map("challenges")
 }
@@ -139,5 +154,4 @@ model PushSubscription {
   createdAt DateTime @default(now()) @map("created_at")
   user_id   String?
 
-  @@map("push_subscriptions")
 }

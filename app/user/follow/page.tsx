@@ -1,5 +1,5 @@
 'use client';
-import Input from '@/app/_components/inputs/Input';
+import CustomInput from '@/app/_components/inputs/CustomInput';
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 
@@ -85,7 +85,7 @@ const FollowPage = () => {
           type={type as 'follower' | 'following'}
           nickname={userInfo?.nickname || ''}
         />
-        <Input
+        <CustomInput
           placeholder={
             type === 'follower'
               ? '팔로워한 사람들을 검색해보세요'

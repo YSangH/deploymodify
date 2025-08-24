@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from '@/app/_components/buttons/Button';
-import { CustomInput } from '@/app/_components/inputs/Input';
+import { EmojiDisplay } from '@/app/_components/emoji/EmojiDisplay';
+import CustomInput from '@/app/_components/inputs/CustomInput';
 import { FileUpload } from '@/app/_components/file-upload/FileUpload';
 import { UI_MESSAGES, FORM_LIMITS } from '@/public/consts/routineItem';
 import { showError, ROUTINE_ERRORS } from '@/public/utils/errorUtils';

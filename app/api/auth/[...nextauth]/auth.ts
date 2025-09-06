@@ -213,13 +213,16 @@ export const authOptions = {
       }
       return session;
     },
-
+    
     async redirect({ url, baseUrl}: { url: string; baseUrl: string;}) {
+      // 소셜 로그인 url 정규화(url이 간결해짐)
+      // URL에서 쿼리 파라미터 제거 (OAuth 관련 파라미터 정리)
+      const cleanUrl = url.split('?')[0];
       // Google 콜백 URL인 경우 처리
       if (url.includes('/login/google-callback')) {
         return `${baseUrl}/login/google-callback`;
       }
-
+      
       // if (url.startsWith('/')) {
         // if (url === '/user/dashboard') {
         //   return `${baseUrl}/user/dashboard`;
@@ -233,9 +236,6 @@ export const authOptions = {
       //   return url;
       // }
 
-      // 카카오 로그인 url
-      // URL에서 쿼리 파라미터 제거 (OAuth 관련 파라미터 정리)
-      const cleanUrl = url.split('?')[0];
 
       // 로그인 후 리다이렉트 - 대시보드로 이동
       if (cleanUrl.startsWith('/')) {

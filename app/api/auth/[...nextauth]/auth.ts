@@ -209,7 +209,6 @@ export const authOptions = {
         session.user.profileImgPath = token.profileImgPath || null;
         session.user.username = token.username as string;
         session.user.name = token.name as string;
-      
       }
       return session;
     },
@@ -222,21 +221,6 @@ export const authOptions = {
       if (url.includes('/login/google-callback')) {
         return `${baseUrl}/login/google-callback`;
       }
-      
-      // if (url.startsWith('/')) {
-        // if (url === '/user/dashboard') {
-        //   return `${baseUrl}/user/dashboard`;
-        // }
-        // const redirectUrl = `${baseUrl}${url}`;
-        // return redirectUrl;
-      // }
-
-      // 외부 URL인 경우 홈으로 리다이렉트
-      // if (new URL(url).origin === baseUrl) {
-      //   return url;
-      // }
-
-
       // 로그인 후 리다이렉트 - 대시보드로 이동
       if (cleanUrl.startsWith('/')) {
         if (cleanUrl === '/user/dashboard') {
@@ -245,12 +229,10 @@ export const authOptions = {
         const redirectUrl = `${baseUrl}${cleanUrl}`;
         return redirectUrl;
       }
-
       // 외부 URL인 경우 홈으로 리다이렉트
       if (new URL(url).origin === baseUrl) {
         return cleanUrl;
       }
-
       return baseUrl;
     },
   },

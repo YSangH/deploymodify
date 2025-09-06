@@ -219,20 +219,36 @@ export const authOptions = {
       if (url.includes('/login/google-callback')) {
         return `${baseUrl}/login/google-callback`;
       }
-      
+
+      // if (url.startsWith('/')) {
+        // if (url === '/user/dashboard') {
+        //   return `${baseUrl}/user/dashboard`;
+        // }
+        // const redirectUrl = `${baseUrl}${url}`;
+        // return redirectUrl;
+      // }
+
+      // 외부 URL인 경우 홈으로 리다이렉트
+      // if (new URL(url).origin === baseUrl) {
+      //   return url;
+      // }
+
+      // 카카오 로그인 url
+      // URL에서 쿼리 파라미터 제거 (OAuth 관련 파라미터 정리)
+      const cleanUrl = url.split('?')[0];
+
       // 로그인 후 리다이렉트 - 대시보드로 이동
-      if (url.startsWith('/')) {
-        // 온보딩이 필요한 사용자를 위해 대시보드로 이동 (대시보드에서 온보딩 여부 판단)
-        if (url === '/user/dashboard') {
+      if (cleanUrl.startsWith('/')) {
+        if (cleanUrl === '/user/dashboard') {
           return `${baseUrl}/user/dashboard`;
         }
-        const redirectUrl = `${baseUrl}${url}`;
+        const redirectUrl = `${baseUrl}${cleanUrl}`;
         return redirectUrl;
       }
 
       // 외부 URL인 경우 홈으로 리다이렉트
       if (new URL(url).origin === baseUrl) {
-        return url;
+        return cleanUrl;
       }
 
       return baseUrl;

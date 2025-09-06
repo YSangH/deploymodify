@@ -176,6 +176,12 @@ export const authOptions = {
             nickname: userInfo.name,
             profile_image: userInfo.picture,
           });
+          // 카카오 추가 된 부분
+          user.id = result?.id;
+          user.nickname = result?.nickname;
+          user.email = result?.email;
+          user.profileImg = result?.profileImg;
+          user.name = result?.name;
         }
       }
       return true;

@@ -176,7 +176,7 @@ export const authOptions = {
             nickname: userInfo.name,
             profile_image: userInfo.picture,
           });
-          // 카카오 추가 된 부분
+          // 카카오 추가 된 부분(9.6 추가)
           user.id = result?.id;
           user.nickname = result?.nickname;
           user.email = result?.email;
@@ -194,6 +194,7 @@ export const authOptions = {
         token.nickname = user.nickname || undefined;
         token.email = user.email || undefined;
         token.id = user.id || undefined;
+        // (9.6 추가)
         token.name = user.name || undefined;
       }
       return token;
@@ -215,13 +216,13 @@ export const authOptions = {
     
     async redirect({ url, baseUrl}: { url: string; baseUrl: string;}) {
       // 소셜 로그인 url 정규화(url이 간결해짐)
-      // URL에서 쿼리 파라미터 제거 (OAuth 관련 파라미터 정리)
+      // URL에서 쿼리 파라미터 제거 (OAuth 관련 파라미터 정리) (9.6 추가)
       const cleanUrl = url.split('?')[0];
       // Google 콜백 URL인 경우 처리
       if (url.includes('/login/google-callback')) {
         return `${baseUrl}/login/google-callback`;
       }
-      // 로그인 후 리다이렉트 - 대시보드로 이동
+      // 로그인 후 리다이렉트 - 대시보드로 이동 (9.6 추가)
       if (cleanUrl.startsWith('/')) {
         if (cleanUrl === '/user/dashboard') {
           return `${baseUrl}/user/dashboard`;

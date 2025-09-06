@@ -11,6 +11,7 @@ import { SocialLogin } from '@/app/login/_components/SocialLogin';
 import { signIn } from 'next-auth/react';
 import { useGetUserInfo } from '@/libs/hooks/user-hooks/useGetUserInfo';
 import { AxiosError } from 'axios';
+import { Toast } from '@/app/_components/toasts/Toast';
 
 interface ILoginForm {
   email: string;
@@ -57,14 +58,16 @@ export const LoginForm = () => {
       if (result?.error) {
         setError('이메일 또는 비밀번호가 올바르지 않습니다.');
       } else if (result?.ok) {
-        alert('로그인 성공');
+        Toast.success('로그인 성공');
         router.push(`/user/dashboard/${userInfo?.nickname}`);
       } else {
         setError('로그인 처리 중 예상치 못한 오류가 발생했습니다.');
       }
     } catch (error) {
       if (error instanceof AxiosError) {
-        alert(error.response?.data.message);
+        Toast.error(error.response?.data.message || '로그인 처리 중 오류가 발생했습니다.');
+      } else {
+        Toast.error('로그인 처리 중 오류가 발생했습니다.');
       }
       setError('로그인 처리 중 오류가 발생했습니다.');
     } finally {

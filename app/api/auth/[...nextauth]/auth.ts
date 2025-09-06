@@ -162,7 +162,7 @@ export const authOptions = {
             name: userInfo.name,
             picture: userInfo.picture,
             sub: userInfo.sub,
-            
+
           });
           user.id = result?.id;
           user.nickname = result?.nickname;
@@ -194,6 +194,7 @@ export const authOptions = {
         token.nickname = user.nickname || undefined;
         token.email = user.email || undefined;
         token.id = user.id || undefined;
+        token.name = user.name || undefined;
       }
       return token;
     },
@@ -207,7 +208,7 @@ export const authOptions = {
         session.user.profileImg = token.profileImg || null;
         session.user.profileImgPath = token.profileImgPath || null;
         session.user.username = token.username as string;
-        
+        session.user.name = token.name as string;
       
       }
       return session;
